@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <title>Heatmaps</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+#floating-panel {
+  position: absolute;
+  top: 10px;
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+}
+
+      #floating-panel {
+        background-color: #fff;
+        border: 1px solid #999;
+        left: 25%;
+        padding: 5px;
+        position: absolute;
+        top: 10px;
+        z-index: 5;
+      }
+    </style>
+    <script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
+  </head>
+
+  <body>
+    <div id="floating-panel">
+      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+      <button onclick="changeGradient()">Change gradient</button>
+      <button onclick="changeRadius()">Change radius</button>
+      <button onclick="changeOpacity()">Change opacity</button>
+    </div>
+    <div id="map"></div>
+    <script>
+
+var map, heatmap, infowindow;
+var location_list = [];
+
+function initMap() {
+  console.log("making map: "+location_list);
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 6,
+    center: {lat: 33.6387439, lng: 73.0479067},
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+  infowindow = new google.maps.InfoWindow();
+
+  heatmap = new google.maps.visualization.HeatmapLayer({
+    data: location_list,
+    map: map
+  });
+}
+
+function readValue(){
+    // Get a database reference to our posts
+    var ref = new Firebase("https://safe-spot.firebaseio.com/");
+
+    ref.once("value", function(snapshot) {
+          // The callback function will get called twice, once for "fred" and once for "barney"
+          snapshot.forEach(function(childSnapshot) {
+            // key will be "fred" the first time and "barney" the second time
+            var key = childSnapshot.key();
+
+            // childData will be the actual contents of the child
+            var childData = childSnapshot.val();
+            console.log(childData);
+            lat = childData.lat;
+            lon = childData.lon;
+            addLatLong(lat, lon);
+            // console.log("lat: "+lat);
+            // console.log("lon: "+lon);
+        });
+        initMap();
+    });
+    // Attach an asynchronous callback to read the data at our posts reference
+    // ref.on("value", function(snapshot) {
+    //     var values = snapshot.val();
+
+    //     console.log(values);
+    //     var valueList = values.key();
+    //     console.log(valueLists);
+    //     // for (int i = 0; i < values.length; i++) {
+    //     //     entry = values[i];
+    //     //     lat = entry.lat;
+    //     //     lon = entry.lon;
+    //     //     addLatLong(lat, lon);
+    //     // }
+      
+    //   initMap();
+    // }, function (errorObject) {
+    //   console.log("The read failed: " + errorObject.code);
+    // });
+}
+
+function toggleHeatmap() {
+  heatmap.setMap(heatmap.getMap() ? null : map);
+}
+
+function addLatLong(latitude, longitude){
+  location_new = new google.maps.LatLng(latitude, longitude);
+  console.log("location_new: "+location_new);
+    location_list.push(location_new);
+}
+
+function changeGradient() {
+  var gradient = [
+    'rgba(0, 255, 255, 0)',
+    'rgba(0, 255, 255, 1)',
+    // 'rgba(0, 191, 255, 1)',
+    // 'rgba(0, 127, 255, 1)',
+    // 'rgba(0, 63, 255, 1)',
+    // 'rgba(0, 0, 255, 1)',
+    // 'rgba(0, 0, 223, 1)',
+    // 'rgba(0, 0, 191, 1)',
+    // 'rgba(0, 0, 159, 1)',
+    // 'rgba(0, 0, 127, 1)',
+    // 'rgba(63, 0, 91, 1)',
+    // 'rgba(127, 0, 63, 1)',
+    // 'rgba(191, 0, 31, 1)',
+    'rgba(255, 0, 0, 1)'
+  ]
+  heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+}
+
+function changeRadius() {
+  heatmap.set('radius', heatmap.get('radius') ? null : 20);
+}
+
+function changeOpacity() {
+  heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+}
+
+// Heatmap data: 500 Points
+function getPoints() {
+  return location_list;
+}
+
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx0nk-kqKOI0rvEmHVdWcB8oj2f5_5HXA&signed_in=true&libraries=visualization,places&callback=readValue">
+    </script>
+  </body>
+</html>
