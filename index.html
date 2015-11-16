@@ -1,42 +1,51 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html dir="ltr" lang="en-US">
+<head>
 
-    <meta charset="utf-8">
-    <title>Heatmaps</title>
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="author" content="SemiColonWeb" />
+
+  <!-- Stylesheets
+  ============================================= -->
+  <link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="style.css" type="text/css" />
+  <link rel="stylesheet" href="css/dark.css" type="text/css" />
+  <link rel="stylesheet" href="css/font-icons.css" type="text/css" />
+  <link rel="stylesheet" href="css/animate.css" type="text/css" />
+  <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/responsive.css" type="text/css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--[if lt IE 9]>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+  <![endif]-->
+
+  <!-- External JavaScripts
+  ============================================= -->
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/plugins.js"></script>
+  <script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
+
+<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
+  <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+  <script>
+  $(function() {
+    $( "#datepicker" ).datepicker().show();
+  });
+  </script>
+ 
+  <!-- Document Title
+  ============================================= -->
+  <title>Muhafiz</title>
+  <style>
+
       #map {
-        height: 100%;
+        height: 500px;
       }
-#floating-panel {
-  position: absolute;
-  top: 10px;
-  left: 25%;
-  z-index: 5;
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
-  text-align: center;
-  font-family: 'Roboto','sans-serif';
-  line-height: 30px;
-  padding-left: 10px;
-}
-
-      #floating-panel {
-        background-color: #fff;
-        border: 1px solid #999;
-        left: 25%;
-        padding: 5px;
-        position: absolute;
-        top: 10px;
-        z-index: 5;
+      #map1 {
+        height: 400px;
       }
-
       .controls {
   margin-top: 10px;
   border: 1px solid transparent;
@@ -47,6 +56,12 @@
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
+
+
+.div-inline{
+    display:inline-block;
+}
+
 
 #pac-input {
   background-color: #fff;
@@ -63,20 +78,183 @@
   border-color: #4d90fe;
 }
 
-.pac-container {
+#pac-input1 {
+/*  background-color: #fff;
   font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 300px;*/
+}
+
+
+#pac-input1:focus {
+  border-color: #4d90fe;
+}
+
+.pac-input2 {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  display:inline-block;
 }
     </style>
-    <script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
-  </head>
 
-  <body>
-    <input id="pac-input" class="controls" type="text"
-        placeholder="Enter a location">
-    <div id="map"></div>
-    <script>
+</head>
 
-var map, heatmap, infowindow;
+<body class="stretched">
+
+  <!-- Document Wrapper
+  ============================================= -->
+  <div id="wrapper" class="clearfix">
+
+    <section id="slider" class="slider-parallax with-header">
+
+      <div class="full-screen" style="background: url('9.jpg') center center no-repeat; background-size: cover;">
+
+      </div>
+
+    </section>
+    <hr>
+
+    <!-- Header
+    ============================================= -->
+    <header id="header" class="transparent-header">
+
+      <div id="header-wrap">
+
+        <div class="container clearfix">
+
+          <div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+          <!-- Logo
+          ============================================= -->
+          <div id="logo">
+            <a href="index.html" class="standard-logo" data-dark-logo="images/logo-dark.png"><img src="images/logo.png" alt="Canvas Logo"></a>
+            <a href="index.html" class="retina-logo" data-dark-logo="images/logo-dark@2x.png"><img src="images/logo.png" alt="Canvas Logo"></a>
+          </div><!-- #logo end -->
+
+          <!-- Primary Navigation
+          ============================================= -->
+          <nav id="primary-menu">
+
+            <ul>
+              <li class="current"><a href="index.html"><div>Home</div></a>
+              </li>
+              <li><a href="#mapsection"><div>Crime Map</div></a>
+              <li><a href="#content"><div>About Us</div></a>
+              <li><a href="#inputsection"><div>Report Crime</div></a>
+
+            </ul>
+          </nav><!-- #primary-menu end -->
+
+        </div>
+
+      </div>
+
+    </header><!-- #header end -->
+
+    <div class="clearfix container"></div>
+    <section id="mapsection">
+      <div class="container clearfix content-wrap nopadding">
+        <h1 align="center">Crime Map</h1>
+      </div>
+        <!-- <div class="section"> -->
+              <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
+
+              <div id="map"></div>
+        <!-- </div> -->
+    </section>
+    <hr>
+    <!-- Content
+    ============================================= -->
+    <section id="content" style="padding-top:30px;">
+
+      <div class="container clearfix">
+        <h1 align="center">About us</h1>
+      </div>
+
+      <div class="content-wrap nopadding">
+
+        <div class="col-md-12 nopadding common-height">
+
+          <div class="col-md-4 col-padding ohidden" style="background-color: #90C695;">
+            <div>
+              <h3 class="uppercase" style="font-weight: 600;">What is Muhafiz</h3>
+              <p style="line-height: 1.8;"> Muhafiz is a crowdsourced crime collection website for Pakistan. Crime is not just underreported, but also poorly documented in Pakistan. Crouwdsourcing crime reporting allows us to get better crime statistics. </p>
+              <i class="icon-bulb bgicon"></i>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-padding ohidden" style="background-color: #ffffff;">
+            <div>
+              <h3 class="uppercase" style="font-weight: 600;">What you can do</h3>
+              <p style="line-height: 1.8;"> If you or someone you know has been the victim of a crime, please enter the date, crime and location in the form on our website. It's anonymous. Help us, help you :) </p>
+              <a href="#" class="button button-border button-rounded button-light button-large">See Form</a>
+              <i class="icon-cog bgicon"></i>
+            </div>
+          </div>
+          <div class="col-md-4 col-padding ohidden" style="background-color: #FDE3A7;">
+            <div>
+              <h3 class="uppercase" style="font-weight: 600;">Why should you contribute</h3>
+              <p style="line-height: 1.8;">Help us break the silence on crimes, and inform each other. Better crime statistics will not just keep the public informed and secure, but also help government authorites in tracking crime.</p>
+              <i class="icon-cog bgicon"></i>
+            </div>
+          </div>
+
+          <div class="clear"></div>
+
+        </div>
+
+        <div class="clear"></div>
+      </div>
+
+    </section><!-- #content end -->
+    <hr>
+    <section id="inputsection" style="padding-top:30px;">
+      <div class="container clearfix">
+        <h1 align="center">Report Crime</h1>
+      </div>
+              Date: <input type="text" class="pac-input2" id="datepicker">
+              <select id="crimename" name='test'>
+            <option value='default' selected='selected'>Type of Crime</option>
+            <option value='Murder'>Murder</option>
+            <option value='Rape'>Rape</option>
+            <option value='Theft'>Theft</option>
+            </select>
+            <input id="pac-input1" class="pac-input2" type="text" placeholder="Enter a location">
+            <input id="latField" class="pac-input2" type="text" placeholder="Lat">
+            <input id="lngField" class="pac-input2" type="text" placeholder="Lng">
+<!--              <div class="dropdown pac-input2">
+                <button class="btn btn-primary dropdown-toggle dropdown" type="button" data-toggle="dropdown">Type of crime
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                <li><a href="#">Murder</a></li>
+                <li><a href="#">Rape</a></li>
+                <li><a href="#">Theft</a></li>
+                <li><a href="#">Robbery</a></li>
+                </ul>
+              </div> -->
+              <button class="btn btn-primary" id="submitButton">Submit</button>
+              <div id="map1"></div>
+        <!-- </div> -->
+    </section>
+
+  </div><!-- #wrapper end -->
+
+  <!-- Go To Top
+  ============================================= -->
+  <div id="gotoTop" class="icon-angle-up"></div>
+
+<script>
+
+var map, map1, heatmap, infowindow;
 var location_list = [];
 
 function addHeatMap() {
@@ -91,6 +269,14 @@ function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 6,
     center: {lat: 33.6387439, lng: 73.0479067},
+    scrollwheel: false,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+  map1 = new google.maps.Map(document.getElementById('map1'), {
+    zoom: 6,
+    center: {lat: 33.6387439, lng: 73.0479067},
+    scrollwheel: false,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
 
@@ -98,17 +284,34 @@ function initMap() {
     data: location_list,
     map: map
   });
-    var input = /** @type {!HTMLInputElement} */(
+
+  var input = /** @type {!HTMLInputElement} */(
       document.getElementById('pac-input'));
+  var input1 = /** @type {!HTMLInputElement} */(
+      document.getElementById('pac-input1'));
+  var latInput = /** @type {!HTMLInputElement} */(
+      document.getElementById('latField'));
+  var lngInput = /** @type {!HTMLInputElement} */(
+      document.getElementById('lngField'));
 
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  // map1.controls[google.maps.ControlPosition.TOP_LEFT].push(input1);
 
   var autocomplete = new google.maps.places.Autocomplete(input);
+  var autocomplete1 = new google.maps.places.Autocomplete(input1);
   autocomplete.bindTo('bounds', map);
+  autocomplete1.bindTo('bounds', map1);
 
   var infowindow = new google.maps.InfoWindow();
+  var infowindow1 = new google.maps.InfoWindow();
+
   var marker = new google.maps.Marker({
     map: map,
+    anchorPoint: new google.maps.Point(0, -29)
+  });
+
+  var marker1 = new google.maps.Marker({
+    map: map1,
     anchorPoint: new google.maps.Point(0, -29)
   });
 
@@ -135,6 +338,7 @@ function initMap() {
       anchor: new google.maps.Point(17, 34),
       scaledSize: new google.maps.Size(35, 35)
     }));
+
     marker.setPosition(place.geometry.location);
     marker.setVisible(true);
 
@@ -149,9 +353,88 @@ function initMap() {
 
     infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
     infowindow.open(map, marker);
-    addHeatMap();
+  });
+
+  autocomplete1.addListener('place_changed', function() {
+    infowindow1.close();
+    marker1.setVisible(false);
+    var place = autocomplete1.getPlace();
+    if (!place.geometry) {
+      window.alert("Autocomplete's returned place contains no geometry");
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map1.fitBounds(place.geometry.viewport);
+    } else {
+      map1.setCenter(place.geometry.location);
+      map1.setZoom(17);  // Why 17? Because it looks good.
+    }
+    marker1.setIcon(/** @type {google.maps.Icon} */({
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(35, 35)
+    }));
+    marker1.setPosition(place.geometry.location);
+    marker1.setVisible(true);
+    lat = place.geometry.location.lat();
+    lng = place.geometry.location.lng();
+    latInput.value =  lat;
+    lngInput.value = lng;
+
+    var address = '';
+    if (place.address_components) {
+      address = [
+        (place.address_components[0] && place.address_components[0].short_name || ''),
+        (place.address_components[1] && place.address_components[1].short_name || ''),
+        (place.address_components[2] && place.address_components[2].short_name || '')
+      ].join(' ');
+    }
+
+    infowindow1.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+    infowindow1.open(map, marker);
   });
 }
+
+    var crime = "";
+    var myFirebaseRef = new Firebase("https://safe-spot.firebaseio.com/");
+
+    
+    $("#submitButton").click(function(){
+    console.log("submitButton");
+
+    var crime = $('#crimename').find(":selected").text();
+    var latitude = $('#latField').val();
+    var longitude = $('#lngField').val();
+    var address = $('#pac-input1').val();
+    var date = $('#datepicker').val();
+
+    console.log("crime: "+crime);
+    console.log("latitude: "+latitude);
+    console.log("longitude: "+longitude);
+    console.log("date: "+date);
+    console.log("address: "+address);
+
+    // Generate a reference to a new location and add some data using push()
+    var newPostRef = myFirebaseRef.push();
+    newPostRef.set({time: Firebase.ServerValue.TIMESTAMP , 
+        lon: longitude,
+        lat: latitude,
+        address: address,
+        date: date,
+        crime: crime});
+    // Get the unique ID generated by push()
+    var postID = newPostRef.key();
+    console.log(date);
+    });
+
+    $(".dropdown-menu li a").click(function(){
+    $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+    crime = $(this).text();
+    });
 
 function readValue(){
     // Get a database reference to our posts
@@ -211,5 +494,13 @@ function getPoints() {
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx0nk-kqKOI0rvEmHVdWcB8oj2f5_5HXA&signed_in=true&libraries=visualization,places&callback=readValue">
     </script>
-  </body>
+
+    <script>
+
+    // </script>
+  <!-- Footer Scripts
+  ============================================= -->
+  <script type="text/javascript" src="js/functions.js"></script>
+
+</body>
 </html>
