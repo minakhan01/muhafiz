@@ -121,6 +121,7 @@
 			</div>
 
 		</section>
+		<hr>
 
 		<!-- Header
 		============================================= -->
@@ -146,7 +147,7 @@
 						<ul>
 							<li class="current"><a href="index.html"><div>Home</div></a>
 							</li>
-							<li><a href="#mapsection"><div>Map</div></a>
+							<li><a href="#mapsection"><div>Crime Map</div></a>
 							<li><a href="#content"><div>About Us</div></a>
 							<li><a href="#inputsection"><div>Report Crime</div></a>
 
@@ -159,18 +160,25 @@
 
 		</header><!-- #header end -->
 
-		<div class="clear"></div>
+		<div class="clearfix container"></div>
 		<section id="mapsection">
-				<div class="section">
+			<div class="container clearfix content-wrap nopadding">
+				<h1 align="center">Crime Map</h1>
+			</div>
+				<!-- <div class="section"> -->
 					    <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
 
     					<div id="map"></div>
-				</div>
+				<!-- </div> -->
 		</section>
-		<section id="content">
+		<hr>
 		<!-- Content
 		============================================= -->
-		<section id="content">
+		<section id="content" style="padding-top:30px;">
+
+			<div class="container clearfix">
+				<h1 align="center">About us</h1>
+			</div>
 
 			<div class="content-wrap nopadding">
 
@@ -208,8 +216,11 @@
 			</div>
 
 		</section><!-- #content end -->
-		<section id="inputsection">
-				<div class="section">
+		<hr>
+		<section id="inputsection" style="padding-top:30px;">
+			<div class="container clearfix">
+				<h1 align="center">Report Crime</h1>
+			</div>
 					    Date: <input type="text" class="pac-input2" id="datepicker">
 					    <select id="crimename" name='test'>
 						<option value='default' selected='selected'>Type of Crime</option>
@@ -232,7 +243,7 @@
 				    	</div> -->
 				    	<button class="btn btn-primary" id="submitButton">Submit</button>
 				    	<div id="map1"></div>
-				</div>
+				<!-- </div> -->
 		</section>
 
 	</div><!-- #wrapper end -->
