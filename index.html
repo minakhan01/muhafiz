@@ -66,18 +66,6 @@
 .pac-container {
   font-family: Roboto;
 }
-
-#type-selector {
-  color: #fff;
-  background-color: #4d90fe;
-  padding: 5px 11px 0px 11px;
-}
-
-#type-selector label {
-  font-family: Roboto;
-  font-size: 13px;
-  font-weight: 300;
-}
     </style>
     <script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
   </head>
@@ -85,30 +73,18 @@
   <body>
     <input id="pac-input" class="controls" type="text"
         placeholder="Enter a location">
-    <div id="type-selector" class="controls">
-      <input type="radio" name="type" id="changetype-all" checked="checked">
-      <label for="changetype-all">All</label>
-
-      <input type="radio" name="type" id="changetype-establishment">
-      <label for="changetype-establishment">Establishments</label>
-
-      <input type="radio" name="type" id="changetype-address">
-      <label for="changetype-address">Addresses</label>
-
-      <input type="radio" name="type" id="changetype-geocode">
-      <label for="changetype-geocode">Geocodes</label>
-    </div>
-    <div id="floating-panel">
-      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
-      <button onclick="changeGradient()">Change gradient</button>
-      <button onclick="changeRadius()">Change radius</button>
-      <button onclick="changeOpacity()">Change opacity</button>
-    </div>
     <div id="map"></div>
     <script>
 
 var map, heatmap, infowindow;
 var location_list = [];
+
+function addHeatMap() {
+    heatmap = new google.maps.visualization.HeatmapLayer({
+    data: location_list,
+    map: map
+  });
+}
 
 function initMap() {
   console.log("making map: "+location_list);
@@ -125,9 +101,7 @@ function initMap() {
     var input = /** @type {!HTMLInputElement} */(
       document.getElementById('pac-input'));
 
-  var types = document.getElementById('type-selector');
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
 
   var autocomplete = new google.maps.places.Autocomplete(input);
   autocomplete.bindTo('bounds', map);
@@ -175,16 +149,8 @@ function initMap() {
 
     infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
     infowindow.open(map, marker);
+    addHeatMap();
   });
-
-  // Sets a listener on a radio button to change the filter type on Places
-  // Autocomplete.
-  function setupClickListener(id, types) {
-    var radioButton = document.getElementById(id);
-    radioButton.addEventListener('click', function() {
-      autocomplete.setTypes(types);
-    });
-  }
 }
 
 function readValue(){
@@ -228,10 +194,6 @@ function readValue(){
     // });
 }
 
-function toggleHeatmap() {
-  heatmap.setMap(heatmap.getMap() ? null : map);
-}
-
 function addLatLong(latitude, longitude){
   location_new = new google.maps.LatLng(latitude, longitude);
   console.log("location_new: "+location_new);
@@ -256,14 +218,6 @@ function changeGradient() {
     'rgba(255, 0, 0, 1)'
   ]
   heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
-}
-
-function changeRadius() {
-  heatmap.set('radius', heatmap.get('radius') ? null : 20);
-}
-
-function changeOpacity() {
-  heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
 }
 
 // Heatmap data: 500 Points
